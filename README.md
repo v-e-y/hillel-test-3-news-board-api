@@ -30,3 +30,4 @@ Cheers! 😊
 ### Models
 - Posts
 - Users
+- Comment
