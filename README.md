@@ -31,3 +31,7 @@ Cheers! 😊
 - Posts
 - Users
 - Comment
+
+#### Tasks
+- Write relations between models.
+- Make seeds.

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class NewsFactory extends Factory
 {
@@ -13,9 +14,12 @@ class NewsFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->sentence(5);
+
         return [
-            'title' => $this->faker()->sentence(5),
-            
+            'title' => $title,
+            'link' => Str::slug($title),
+            'upvotes' => random_int(0, 1000)
         ];
     }
 }

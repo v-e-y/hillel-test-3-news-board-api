@@ -16,10 +16,10 @@ class CreateNewsTable extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->string('author_name', 64);
-            $table->string('title', 125);
-            $table->string('link', 255);
+            $table->string('title', 125)->unique();
+            $table->string('link', 255)->unique();
             $table->bigInteger('upvotes')->unsigned()->nullable(0);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
 
         Schema::table('news', function (Blueprint $table) {
