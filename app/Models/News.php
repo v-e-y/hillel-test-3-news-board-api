@@ -13,8 +13,7 @@ class News extends Model
 
     protected $fillable = [
         'title',
-        'link',
-        'upvotes'
+        'link'
     ];
 
     /*
