@@ -14,11 +14,9 @@ class NewsFactory extends Factory
      */
     public function definition()
     {
-        $title = $this->faker->sentence(5);
-
         return [
-            'title' => $title,
-            'link' => Str::slug($title),
+            'title' => $this->faker->sentence(5),
+            'link' => $this->faker->url,
             'upvotes' => random_int(0, 1000)
         ];
     }

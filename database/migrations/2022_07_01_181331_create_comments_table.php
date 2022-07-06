@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->string('author_name', 64);
             $table->unsignedBigInteger('news_id');
             $table->string('content', 5000);
+            $table->softDeletes();
             $table->timestamps();
         });
 

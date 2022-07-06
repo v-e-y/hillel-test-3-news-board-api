@@ -18,7 +18,8 @@ class CreateNewsTable extends Migration
             $table->string('author_name', 64);
             $table->string('title', 125)->unique();
             $table->string('link', 255)->unique();
-            $table->bigInteger('upvotes')->unsigned()->nullable(0);
+            $table->bigInteger('upvotes')->unsigned()->default('0');
+            $table->softDeletes();
             $table->timestamps();
         });
 

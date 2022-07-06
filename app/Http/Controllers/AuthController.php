@@ -7,8 +7,10 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
 
     /**
@@ -18,16 +20,17 @@ class AuthController extends Controller
      */
     public function register(StoreUserRequest $request): JsonResponse
     {
-        if ($request->validated()) {
-            $user = User::create($request->validated());
+        if ($dataForRegistration = $request->validated()) {
+            $dataForRegistration['password'] = Hash::make($dataForRegistration['password']);
 
-            return response()->json([
-                'access_token' => $user->createToken('auth_token')->plainTextToken,
-                'token_type' => 'Bearer'
-            ]);
+            return response()->json(
+                $this->createBearerToken(
+                    User::create($dataForRegistration)
+                )
+            );
         }
 
-        throw new \Exception("Something wrong when processing Request", 1);
+        throw new \Exception("Something wrong when processing Register", 1);
     }
 
     /**
@@ -37,9 +40,31 @@ class AuthController extends Controller
      */
     public function login(LoginUserRequest $request): JsonResponse
     {
-        // TODO
-        dd($request->validated());
+        $dataForLogin = $request->validated();
+
+        if (Auth::attempt($dataForLogin)) {
+            return response()->json(
+                $this->createBearerToken(
+                    User::where('email', $dataForLogin['email'])->firstOrFail()
+                )
+            );
+        }
+
+        throw new \Exception("Something wrong when processing Login", 1);
     }
 
-    //TODO logout
+    //TODO "logout"
+
+    /**
+     * Create and return bearer token
+     * @param  User $user
+     * @return array
+     */
+    private function createBearerToken(User $user): array
+    {
+        return [
+            'access_token' => $user->createToken('auth_token')->plainTextToken,
+            'token_type' => 'Bearer'
+        ];
+    }
 }

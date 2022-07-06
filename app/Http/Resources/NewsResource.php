@@ -19,7 +19,7 @@ class NewsResource extends JsonResource
             'title' => $this->title,
             'link' => $this->link,
             'upvotes' => $this->upvotes,
-            'comments' => $this->comments
+            'comments' => CommentResource::collection($this->comments)
         ];
     }
 }
