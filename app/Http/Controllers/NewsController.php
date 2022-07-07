@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -17,19 +16,19 @@ class NewsController extends Controller
 {    
     /**
      * Get all news
-     * @return Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
         return NewsResource::collection(
-            News::with('comments')->paginate(5)
+            News::all()->paginate(5)
         );
     }
 
     /**
      * Store the incoming News.
-     * @param  App\Http\Requests\StoreNewsRequest  $request
-     * @return NewsResource
+     * @param  \App\Http\Requests\StoreNewsRequest  $request
+     * @return \App\Http\Resources\NewsResource
      */
     public function store(StoreNewsRequest $request): NewsResource
     {
@@ -44,18 +43,18 @@ class NewsController extends Controller
  
     /**
      * Return one specific News
-     * @param  News $news
-     * @return NewsResource
+     * @param  \App\Models\News $news
+     * @return \App\Http\Resources\NewsResource
      */
     public function show(News $news): NewsResource
     {
-        return new NewsResource($news);
+        return NewsResource::make($news);
     }
     
     /**
      * Update 1 News
-     * @param  Request $request
-     * @param  News $news
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\News $news
      * @return JsonResponse|NewsResource
      */
     public function update(Request $request, News $news)
@@ -88,8 +87,8 @@ class NewsController extends Controller
     
     /**
      * Delete News
-     * @param  News $news
-     * @return JsonResponse
+     * @param  \App\Models\News $news
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(News $news): JsonResponse
     {
@@ -102,14 +101,18 @@ class NewsController extends Controller
 
         return response()->json([
             'status' => 'error',
-            'errors' => 'Some error(s) when trieng delete News'
+            'errors' => 'Some error(s) when tried delete News'
         ]);
     }
-
+    
+    /**
+     * Upvote news
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\News $news
+     * @return \App\Http\Resources\NewsResource
+     */
     public function upvote(Request $request, News $news)
     {
-        //dd($request, $news);
-
         $validator = Validator::make(
             $request->all(), 
             [

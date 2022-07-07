@@ -15,11 +15,11 @@ class NewsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'author name' => $this->author_name,
+            'author_name' => $this->author_name,
             'title' => $this->title,
             'link' => $this->link,
             'upvotes' => $this->upvotes,
-            'comments' => CommentResource::collection($this->comments)
+            'comments' => route('news.comments', $this->id)
         ];
     }
 }

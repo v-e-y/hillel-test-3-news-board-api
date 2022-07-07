@@ -17,7 +17,7 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'author_name' => $this->author_name,
-            'news_id' => $this->news_id,
+            'news' => route('news.show', $this->news_id),
             'content' => $this->content
         ];
     }

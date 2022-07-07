@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +13,11 @@ class Comment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = [
+        'content',
+        'author_name'
+    ];
 
     /*
     * Relations
