@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./Dockerfile
     image: php:8.1.0-fpm
     container_name: hillel_test_3_news_api_php
     restart: unless-stopped
