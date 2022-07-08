@@ -26,7 +26,7 @@ class CommentController extends Controller
         $request->request->add(['author_name' => $user->name]);
 
         $validator = Validator::make(
-            $request->all(), 
+            $request->all(),
             [
                 'content' => 'string|min:1|max:5000|',
                 'author_name' => 'exists:users,name'
@@ -46,10 +46,10 @@ class CommentController extends Controller
         $comment = $news->comments()->create(
             $request->all()
         );
-        
+
         return $this->show($comment);
     }
-        
+
     /**
      * Show 1 specific resource
      * @param  \App\Models\Comment $comment
@@ -67,9 +67,9 @@ class CommentController extends Controller
      * @return JsonResponse|NewsResource
      */
     public function update(Request $request, Comment $comment)
-    {   
+    {
         $validator = Validator::make(
-            $request->all(), 
+            $request->all(),
             [
                 'content' => 'string|min:1|max:5000|'
             ]

@@ -58,6 +58,8 @@ Route::middleware('auth:sanctum')
             );
         })->name('news.comments');
 
+        Route::get('/upvotes/{news}', [NewsController::class, 'upvote']);
+
         // Route::apiResource('comment', CommentController::class);
         Route::post('/{news}/comment', [CommentController::class, 'store'])
             ->name('comment.store');
@@ -70,6 +72,4 @@ Route::middleware('auth:sanctum')
 
         Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])
             ->name('comment.destroy');
-
-        Route::patch('/upvotes/{news}', [NewsController::class, 'upvote']);
 });

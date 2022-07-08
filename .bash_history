@@ -33,3 +33,4 @@ php artisan make:resource NewsResource
 php artisan make:resource CommentResource
 php artisan route:list
 exit
+exit

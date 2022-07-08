@@ -13,7 +13,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
-{    
+{
     /**
      * Get all news
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -21,7 +21,7 @@ class NewsController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return NewsResource::collection(
-            News::all()->paginate(5)
+            News::paginate(5)
         );
     }
 
@@ -33,14 +33,14 @@ class NewsController extends Controller
     public function store(StoreNewsRequest $request): NewsResource
     {
         $news = $request->user()->news()->create($request->validated());
-        
+
         if ($news instanceof News) {
             return $this->show($news);
         }
 
         throw new \Exception("Some error(s) while saving News", 1);
     }
- 
+
     /**
      * Return one specific News
      * @param  \App\Models\News $news
@@ -50,17 +50,17 @@ class NewsController extends Controller
     {
         return NewsResource::make($news);
     }
-    
+
     /**
      * Update 1 News
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\News $news
      * @return JsonResponse|NewsResource
      */
-    public function update(Request $request, News $news)
-    {   
+    public function update(Request $request, News $news): NewsResource
+    {
         $validator = Validator::make(
-            $request->all(), 
+            $request->all(),
             [
                 'title' => 'string|min:12|max:125',
                 'link' => 'string|active_url|min:6|max:255|unique:news,link,' . $news->id,
@@ -84,7 +84,7 @@ class NewsController extends Controller
 
         return $this->show($news);
     }
-    
+
     /**
      * Delete News
      * @param  \App\Models\News $news
@@ -104,35 +104,15 @@ class NewsController extends Controller
             'errors' => 'Some error(s) when tried delete News'
         ]);
     }
-    
+
     /**
      * Upvote news
-     * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\News $news
      * @return \App\Http\Resources\NewsResource
      */
-    public function upvote(Request $request, News $news)
+    public function upvote(News $news): NewsResource
     {
-        $validator = Validator::make(
-            $request->all(), 
-            [
-                'upvotes' => 'numeric|min:0|gte:' . $news->upvotes
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'status' => 'error',
-                    'errors' => $validator->errors()
-                ],
-                422
-            );
-        }
-
-        $news->update(
-            $request->all()
-        );
+        $news->update(['upvotes' => $news->upvotes + 1]);
 
         return $this->show($news);
     }

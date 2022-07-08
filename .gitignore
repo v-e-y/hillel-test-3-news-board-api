@@ -16,4 +16,4 @@ yarn-error.log
 /docker/mysql/data
 /.composer
 /.config
-
+.bash_history
