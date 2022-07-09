@@ -1,16 +1,41 @@
 
 # API News
 
-## Run jobs in 
+dev website - http://vps-40924.vps-default-host.net:7777/
+
+
+## Download project
 ```
-docker container exec -it hillel_test_3_news_api_php /bin/bash
-php artisan queue:work
+git clone https://github.com/v-e-y/hillel-test-3-news-board-api.git
 ```
+
+## Turn on/run and prepare project
+
+rename '.env.example' file to '.env' and fill it your environment data 
+
+```
+CMD: docker-compose up -d --build
+CMD: docker container exec -it hillel_test_3_news_api_php /bin/bash
+CMD: composer install
+CMD: php artisan key:generate
+CMD: php artisan migrate:refresh --seed
+```
+
+## API
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/f08427ea8426203bf9a6?action=collection%2Fimport)
+
 
 ## Set CRON command for job(s)
 ```
-* * * * * cd /path-to-project && php artisan schedule:run >> /dev/null 2>&1
+[project_folder]/ * * * * * docker exec -t $(docker ps -qf "name=hillel_test_3_news_api_php") php artisan schedule:run >> /dev/null 2>&1
 ```
+
+## Turn of/stop project
+```
+CMD: docker-compose down
+```
+
+
 
 
 
@@ -42,8 +67,3 @@ We will start with a simple MVP. It will have a list of news with functionality 
 ### Follow Up
 If you have any questions regarding the task, contact our HR manager.
 Cheers! 😊
-
-#### Models
-- Posts
-- Users
-- Comment

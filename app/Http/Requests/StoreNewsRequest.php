@@ -29,7 +29,7 @@ class StoreNewsRequest extends FormRequest
             'link' => 'required|string|active_url|min:6|max:255'
         ];
     }
-        
+
     /**
      * failedValidation
      * @param  Validator $validator

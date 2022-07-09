@@ -19,15 +19,6 @@ class ResetUpVotes implements ShouldQueue
     //public News $news;
 
     /**
-     * Create a new job instance.
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Execute the job.
      * @return void
      */

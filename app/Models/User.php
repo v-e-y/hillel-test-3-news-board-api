@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens; 
+    use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
@@ -52,17 +52,17 @@ class User extends Authenticatable
     * Get all of the news for the User
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function news(): HasMany
-   {
-       return $this->hasMany(News::class, 'author_name', 'name');
-   }
+    public function news(): HasMany
+    {
+        return $this->hasMany(News::class, 'author_name', 'name');
+    }
 
-   /**
-    * Get all of the comments for the User
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-   public function comments(): HasMany
-   {
-        return $this->hasMany(Comment::class, 'author_name', 'name');
-   }
+    /**
+        * Get all of the comments for the User
+        * @return \Illuminate\Database\Eloquent\Relations\HasMany
+        */
+    public function comments(): HasMany
+    {
+            return $this->hasMany(Comment::class, 'author_name', 'name');
+    }
 }
