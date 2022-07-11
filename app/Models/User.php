@@ -69,6 +69,6 @@ class User extends Authenticatable
 
     public function newsUpVotes(): BelongsToMany
     {
-        return $this->belongsToMany(News::class, 'news_upvotes');
+        return $this->belongsToMany(News::class, 'news_upvotes')->withTimestamps();
     }
 }

@@ -14,9 +14,9 @@ class CreateNewsUpvotesTable extends Migration
     public function up()
     {
         Schema::create('news_upvotes', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('news_id');
             $table->unsignedBigInteger('user_id');
+            $table->softDeletes();
             $table->timestamps();
         });
 

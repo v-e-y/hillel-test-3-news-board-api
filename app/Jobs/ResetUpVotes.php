@@ -16,22 +16,19 @@ class ResetUpVotes implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    //public News $news;
-
     /**
      * Execute the job.
      * @return void
      */
     public function handle()
     {
-        News::where('upvotes', '>', 0)->update(['upvotes' => 0]);
-
-        /*
-        if ($news = News::where('upvotes', '>', 0)->get()) {
-            $news->each(function ($n) {
-                $n->update(['upvotes'=> 0]);
-            });
-        }
-        */
+        News::where('upvotes', '>', 0)->each(function($news) {
+            // Reset amount upvotes
+            $news->update([
+                'upvotes' => 0
+            ]);
+            // Remove upvotes
+            $news->upVotes()->detach();
+        });
     }
 }

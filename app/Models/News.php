@@ -44,6 +44,6 @@ class News extends Model
     // TODO 
     public function upVotes()
     {
-        return $this->belongsToMany(User::class, 'news_upvotes');
+        return $this->belongsToMany(User::class, 'news_upvotes')->withTimestamps();
     }
 }
