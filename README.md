@@ -37,8 +37,6 @@ CMD: docker-compose down
 
 
 
-
-
 Hey, let's build a simple news board API. 
 
 We will start with a simple MVP. It will have a list of news with functionality to upvote and comment on them. Similar platform to [HackerNews](https://news.ycombinator.com/).
@@ -67,3 +65,8 @@ We will start with a simple MVP. It will have a list of news with functionality 
 ### Follow Up
 If you have any questions regarding the task, contact our HR manager.
 Cheers! 😊
+
+
+news-upvoters
+news_id
+user_id

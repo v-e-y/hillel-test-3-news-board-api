@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -64,7 +65,7 @@ class NewsController extends Controller
             [
                 'title' => 'string|min:12|max:125',
                 'link' => 'string|active_url|min:6|max:255|unique:news,link,' . $news->id,
-                'upvotes' => 'numeric|min:0|gte:' . $news->upvotes
+                'upvotes' => 'numeric|min:0'
             ]
         );
 
@@ -108,12 +109,46 @@ class NewsController extends Controller
     /**
      * Upvote news
      * @param  \App\Models\News $news
+     * @param \Illuminate\Http\Request $request
      * @return \App\Http\Resources\NewsResource
      */
-    public function upvote(News $news): NewsResource
+    public function upvote(Request $request, News $news): NewsResource|JsonResponse
     {
-        $news->update(['upvotes' => $news->upvotes + 1]);
+        $user = $request->user();
 
-        return $this->show($news);
+        // Upvote if user didn't it earlier.
+        if (self::isUpVoteUnique($user, $news)) {
+            // Create record about upvote
+            $user->newsUpVotes()->attach(
+                $news->id
+            );
+
+            // Update amount of upvotes
+            // Maybe should be Event...
+            $news->update([
+                'upvotes' => $news->upvotes + 1
+            ]);
+
+            return $this->show($news);
+        }
+
+        return response()->json([
+            'status' => 'Alert',
+            'errors' => 'You already upvote this news'
+        ]);
+    }
+    
+    /**
+     * Check is User didn't upvote given News earlier.
+     * @param  \App\Models\User $user
+     * @param  \App\Models\News $news
+     * @return bool
+     */
+    public static function isUpVoteUnique(User $user, News $news): bool
+    {
+        return $user->newsUpVotes()
+            ->where('news.id', $news->id)
+            ->get()
+            ->isEmpty();
     }
 }

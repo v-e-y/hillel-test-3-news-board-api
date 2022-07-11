@@ -17,7 +17,7 @@ class NewsFactory extends Factory
         return [
             'title' => $this->faker->sentence(5),
             'link' => $this->faker->url,
-            'upvotes' => random_int(0, 1000)
+            // TODO 'upvotes' => random_int(0, 1000)
         ];
     }
 }

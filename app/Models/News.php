@@ -40,4 +40,10 @@ class News extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    // TODO 
+    public function upVotes()
+    {
+        return $this->belongsToMany(User::class, 'news_upvotes');
+    }
 }
