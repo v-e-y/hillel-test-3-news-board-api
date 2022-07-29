@@ -14,3 +14,7 @@ yarn-error.log
 /.idea
 /.vscode
 /docker/mysql/data
+/.composer
+/.config
+.bash_history
+trash.php
